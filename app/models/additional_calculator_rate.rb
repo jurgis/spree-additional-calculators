@@ -1,0 +1,37 @@
+class AdditionalCalculatorRate < ActiveRecord::Base
+
+  # Types (0  is the default value for the column, therefore I'm not using it)
+  WEIGHT = 1  # Total item weight
+  QNTY = 2   # Total item quantity
+
+  belongs_to :calculator
+
+  scope :for_type, lambda {|type| where(:rate_type => type) }
+  scope :for_calculator, lambda {|calculator_id| where(:calculator_id => calculator_id) }
+  scope :between_values, lambda {|from_value, to_value| where("from_value <= ? AND ? <= to_value", from_value, to_value)}
+
+  validates :calculator_id, :rate_type, :from_value, :to_value, :rate, :presence => true
+  validates :from_value, :to_value, :rate, :numericality => true, :allow_blank => true
+
+  def validate
+    errors.add(:base, I18n.t('errors.from_value_greater_than_to_value')) if from_value > to_value
+  end
+
+  # All complex calculator rate types
+  def self.all_types
+    [WEIGHT, QNTY]
+  end
+
+  # Find the rate for the specified value
+  def self.find_rate(calculator_id, rate_type, value)
+    # get the lowes rate if multiple rates are defined (overlaps)
+    rate = for_calculator(calculator_id).for_type(rate_type).between_values(from_value, to_value).order("rate").first()
+    rate.nil? ? nil : rate.rate
+  end
+
+  # Find the previous rate for the specified value
+  def self.find_previous_rate(calculator_id, rate_type, value)
+    rate = for_calculator(calculator_id).for_type(rate_type).where("to_value <= ?", value).order("rate DESC").first()
+    rate.nil? ? nil : rate.rate
+  end
+end
