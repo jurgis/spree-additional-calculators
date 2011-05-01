@@ -6,7 +6,7 @@ class Admin::AdditionalCalculatorRatesController < Admin::BaseController
   before_filter :load_calculator, :only => [:edit, :update]
 
   def index
-    @calculators = Calculator.where(:is_complex => true).order('created_at DESC')
+    @calculators = Calculator.where(:is_additional_calculator => true).order('created_at DESC')
   end
 
   def edit

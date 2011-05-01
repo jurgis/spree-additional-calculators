@@ -12,8 +12,8 @@ en:
   weight: Weight
   quantity: Quantity
   add_new: Add New
-  rate_type_0: Weight
-  rate_type_1: Quantity
+  rate_type_1: Weight
+  rate_type_2: Quantity
   from: From
   to: To
   default_item_weight: Default item weight

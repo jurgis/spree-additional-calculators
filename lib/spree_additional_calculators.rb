@@ -11,12 +11,16 @@ module SpreeAdditionalCalculators
         Rails.env.production? ? require(c) : load(c)
       end
 
-      # Not sure if this is needed
-      # # Register all the calculators
-      # [
-      #   Calculator::WeightAndQuantity
-      # ].each(&:register)
-
+      #register all calculators
+      [
+        AdditionalCalculator::WeightAndQuantity
+      ].each do |c_model|
+        begin
+          c_model.register if c_model.table_exists?
+        rescue Exception => e
+          $stderr.puts "Error registering calculator #{c_model}"
+        end
+      end
     end
 
     config.to_prepare &method(:activate).to_proc
