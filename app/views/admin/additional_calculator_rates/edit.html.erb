@@ -1,9 +1,8 @@
+<%= render "shared/error_messages", :target => @calculator %>
 <h1><%= t("additional_calculator_rates") %></h1>
 <h2><%=h "#{@calculator.name} (#{@calculator.description})" %></h2>
 
-<% form_for(@calculator, :url => admin_additional_calculator_rate_path, :html => { :method => :put}) do |f| %>
-  <!-- probably I will need to change this -->
-  <%= f.error_messages %>
+<%= form_for(@calculator, :url => admin_additional_calculator_rate_path, :html => { :method => :put}) do |f| %>
 
   <table class="edit">
     <% @calculator.supported_types.each do |rate_type| %>
@@ -17,7 +16,7 @@
         </thead>
 
         <tbody>
-          <% f.fields_for :additional_calculator_rates, @rates_by_type[rate_type] do |rate_fields| %>
+          <%= f.fields_for :additional_calculator_rates, @rates_by_type[rate_type] do |rate_fields| %>
             <%= render 'additional_calculator_rate_fields', :f => rate_fields %>
           <% end %>
 

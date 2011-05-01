@@ -21,8 +21,9 @@ class AdditionalCalculator::Base < Calculator
   end
 
   # supported types for the specified calculator (weight, qnty, ...)
+  # all the types are supported by default
   def supported_types
-    [AdditionalCalculatorRate::WEIGHT, AdditionalCalculatorRate::QNTY]
+    AdditionalCalculatorRate.all_types
   end
 
   def sorted_rates

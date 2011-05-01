@@ -14,7 +14,7 @@ module Admin::AdditionalCalculatorsHelper
       render(association.to_s.singularize + "_fields", :f => builder)
     end
 
-    link_to_function(name, h(%Q[add_additional_calculator_rate_fields(this, "#{association}", "#{escape_javascript(fields)}")]))
+    link_to_function(name, %Q[add_additional_calculator_rate_fields(this, "#{association}", "#{escape_javascript(fields)}")])
   end
 
 end

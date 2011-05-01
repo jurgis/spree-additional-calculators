@@ -14,9 +14,9 @@ class Admin::AdditionalCalculatorRatesController < Admin::BaseController
   end
 
   def update
-    if @calculator.update_attributes(params[:calculator_weight_and_quantity])
+    if @calculator.update_attributes(params[:additional_calculator_weight_and_quantity]) # TODO: this must be changed!!!
       flash[:notice] = t('resource_controller.successfully_updated')
-      redirect_to edit_admin_complex_calculator_rate_url(@calculator)
+      redirect_to edit_admin_additional_calculator_rate_url(@calculator)
     else
       @rates_by_type = get_rates_by_type(@calculator, false) # set @rates_by_type before rendering the view
       render :action => 'edit'
