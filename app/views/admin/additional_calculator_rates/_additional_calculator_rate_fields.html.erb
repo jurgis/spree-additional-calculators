@@ -1,0 +1,10 @@
+<tr class="additional_calculator_rate_fields">
+  <td width="100px">&nbsp;</td>
+  <td><%= f.text_field :from_value, :size => 10 %></td>
+  <td><%= f.text_field :to_value, :size => 10 %></td>
+  <td>
+    <%= f.text_field :rate, :size => 10 %>
+    <%= link_to_remove_additional_calculator_rate_fields(t('remove'), f) %>
+    <%= f.hidden_field :rate_type %>
+  </td>
+</tr>

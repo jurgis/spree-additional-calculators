@@ -10,6 +10,13 @@ module SpreeAdditionalCalculators
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.env.production? ? require(c) : load(c)
       end
+
+      # Not sure if this is needed
+      # # Register all the calculators
+      # [
+      #   Calculator::WeightAndQuantity
+      # ].each(&:register)
+
     end
 
     config.to_prepare &method(:activate).to_proc

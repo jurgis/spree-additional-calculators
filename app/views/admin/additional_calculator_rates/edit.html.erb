@@ -1,0 +1,38 @@
+<h1><%= t("additional_calculator_rates") %></h1>
+<h2><%=h "#{@calculator.name} (#{@calculator.description})" %></h2>
+
+<% form_for(@calculator, :url => admin_additional_calculator_rate_path, :html => { :method => :put}) do |f| %>
+  <!-- probably I will need to change this -->
+  <%= f.error_messages %>
+
+  <table class="edit">
+    <% @calculator.supported_types.each do |rate_type| %>
+        <thead>
+          <tr>
+            <th><%= t("rate_type_#{rate_type}") %>:</th>
+            <th><%= t("from") %></th>
+            <th><%= t("to") %></th>
+            <th><%= t("value") %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% f.fields_for :additional_calculator_rates, @rates_by_type[rate_type] do |rate_fields| %>
+            <%= render 'additional_calculator_rate_fields', :f => rate_fields %>
+          <% end %>
+
+          <tr>
+            <td colspan="4">
+              <%= link_to_add_additional_calculator_rate_fields(t('add_new'), f, :additional_calculator_rates,
+                { :rate_type => rate_type, :from_value => nil, :to_value => nil, :rate => nil }) %>
+            </td>
+          </tr>
+        </tbody>
+    <% end %>
+  </table>
+
+  <p class="form-buttons">
+    <%= button t('update') %>
+    <%= t("or") %> <%= link_to t("cancel"), admin_additional_calculator_rates_path %>
+  </p>
+<% end %>
