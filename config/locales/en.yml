@@ -1,0 +1,19 @@
+---
+en:
+  calculator_names:
+    weight_and_quantity: Weight and Quantity
+
+  errors:
+    from_value_greater_than_to_value: "'From' value is greater than 'To' value"
+
+  additional_calculator_rates: Additional Calculator Rates
+  additional_calculator_rates_description: Configure rates for additional calculators
+  additional_calculators: Additional Calculators
+  weight: Weight
+  quantity: Quantity
+  add_new: Add New
+  rate_type_0: Weight
+  rate_type_1: Quantity
+  from: From
+  to: To
+  default_item_weight: Default item weight

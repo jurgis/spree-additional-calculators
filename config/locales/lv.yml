@@ -1,0 +1,19 @@
+---
+lv:
+  calculator_names:
+    weight_and_quantity: "Svars un skaits"
+
+  errors:
+    from_value_greater_than_to_value: "'No' vērtība ir lielāka par 'Līdz' vērtību"
+
+  additional_calculator_rates: "Papildus kalkulatoru aprēķinu tabula"
+  additional_calculator_rates_description: "Aizpildiet papildus kalkulatoru aprēķinu tabulas"
+  additional_calculators: "Papildus kalkulatori"
+  weight: "Svars"
+  quantity: "Skaits"
+  add_new: "Pievienot jaunu ierakstu"
+  rate_type_0: "Svars"
+  rate_type_1: "Skaits"
+  from: "No"
+  to: "Līdz"
+  default_item_weight: "Noklusētais preces svars"
