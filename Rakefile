@@ -20,6 +20,7 @@ if File.exists?(gemfile) && (%w(spec cucumber).include?(ARGV.first.to_s) || ARGV
   end
 end
 
+
 desc "Default Task"
 task :default => [:spec, :cucumber ]
 
@@ -29,6 +30,7 @@ Rake::GemPackageTask.new(spec) do |p|
   p.gem_spec = spec
 end
 
+
 desc "Release to gemcutter"
 task :release => :package do
   require 'rake/gemcutter'
@@ -36,17 +38,31 @@ task :release => :package do
   Rake::Task['gem:push'].invoke
 end
 
-desc "Default Task"
-task :default => [ :spec ]
+# desc "Default Task"
+# task :default => [ :spec ]
+
 
 desc "Regenerates a rails 3 app for testing"
 task :test_app do
-  require '../spree/lib/generators/spree/test_app_generator'
+  SPREE_PATH = ENV['SPREE_PATH']
+  raise "SPREE_PATH should be specified" unless SPREE_PATH
+  require File.join(SPREE_PATH, 'lib/generators/spree/test_app_generator')
   class SpreeAdditionalCalculatorTestAppGenerator < Spree::Generators::TestAppGenerator
+
+    def tweak_gemfile
+      append_file 'Gemfile' do
+<<-gems
+gem 'spree_core', :path => '#{File.join(SPREE_PATH, 'core')}'
+gem 'spree_auth', :path => '#{File.join(SPREE_PATH, 'auth')}'
+gem 'spree_additional_calculators', :path => '#{File.dirname(__FILE__)}'
+gems
+      end
+    end
 
     def install_gems
       inside "test_app" do
         run 'rake spree_core:install'
+        run 'rake spree_auth:install'
         run 'rake spree_additional_calculators:install'
       end
     end
@@ -54,18 +70,10 @@ task :test_app do
     def migrate_db
       run_migrations
     end
-
-    protected
-    def full_path_for_local_gems
-      <<-gems
-gem 'spree_core', :path => \'#{File.join(File.dirname(__FILE__), "../spree/", "core")}\'
-gem 'spree_additional_calculators', :path => \'#{File.dirname(__FILE__)}\'
-      gems
-    end
-
   end
   SpreeAdditionalCalculatorTestAppGenerator.start
 end
+
 
 namespace :test_app do
   desc 'Rebuild test and cucumber databases'
