@@ -7,9 +7,11 @@ class AdditionalCalculator::WeightAndQuantity < AdditionalCalculator::Base
     I18n.t('calculator_names.weight_and_quantity')
   end
 
-  # as order_or_line_items we always get line items, as calculable we have ShippingMethod
-  def compute(order_or_line_items)
-    line_items = order_to_line_items(order_or_line_items)
+  # object can be [Order, Shipment] and maybe something else ...
+  def compute(object)
+    line_items = object_to_line_items(object)
+    return nil if line_items.nil?
+
     total_qnty = get_total_qnty(line_items)
     weight_rate = get_rate(get_total_weight(line_items), AdditionalCalculatorRate::WEIGHT)
 
@@ -26,21 +28,16 @@ class AdditionalCalculator::WeightAndQuantity < AdditionalCalculator::Base
     qnty_rate = get_previous_rate(total_qnty, AdditionalCalculatorRate::QNTY) || 0 if qnty_rate.nil?
 
     # the total rate is sum of weight and quantity rates
-    total_rate = weight_rate + qnty_rate
-    logger.debug("The calculator '#{name}' weight_rate: #{weight_rate.inspect}, qnty_rate: #{qnty_rate.inspect}, total: #{total_rate}")
-
-    total_rate
+    weight_rate + qnty_rate
   end
 
   # check if this calculator is available for the Order
-  def available?(order_or_line_items)
-    line_items = order_to_line_items(order_or_line_items)
+  def available?(object)
+    line_items = object_to_line_items(object)
+    return false if line_items.nil?
+
     weight_rate = get_rate(get_total_weight(line_items), AdditionalCalculatorRate::WEIGHT)
-
-    available = !weight_rate.nil? # available only if the weight rate is not nil
-    logger.debug("The calculator '#{name}' is available: #{available}")
-
-    available
+    !weight_rate.nil? # available only if the weight rate is not nil
   end
 
   protected

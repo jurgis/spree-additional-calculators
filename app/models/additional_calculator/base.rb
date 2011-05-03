@@ -48,7 +48,9 @@ class AdditionalCalculator::Base < Calculator
   end
 
   # get the line items
-  def order_to_line_items(order_or_line_items)
-    order_or_line_items.is_a?(Order) ? order_or_line_items.line_items : order_or_line_items
+  def object_to_line_items(object)
+    return object.line_items if object.is_a?(Order)
+    return object.send(:order).line_items if object.respond_to?(:order)
+    nil
   end
 end

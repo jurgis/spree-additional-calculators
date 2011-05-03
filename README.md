@@ -22,8 +22,17 @@ And then run:
     $ bundle
     $ rake spree_additional_calculators:install
 
-  
-  
+Then go to [Configuration](http://localhost:3000/admin/configurations) and choose [Shipping Methods](http://localhost:3000/admin/shipping_methods)
+And you will be able to select a new calculator - **Weight and Quantity**
+Create the calculator and define the **Default item weight**.
+That value will be used if you do not have defined the weight for your products.
+
+After that you can go to [Configuration](http://localhost:3000/admin/configurations) and choose
+[Additional Calculator Rates](http://localhost:3000/admin/additional_calculator_rates)
+Click **Edit** and you will be able to add new or edit/remove existing weight and quantity ranges.
+
+*This page is using Javascript to add and remove items in the browser. The changes are made only when you press the* **Update** *button.*
+
 Development
 -----------
 
@@ -43,8 +52,6 @@ You can test the extension by executing following commands:
 TODO
 ----
 
-* Find and fix outstanding issues with spree 0.50.2 (the extension worked with spree 0.11.x)
-* Publish the gem 0.1.0
 * Add RSpec tests
 * Possibly add some cucumber scenarios
 * Possibly use unobtrusive javascript
