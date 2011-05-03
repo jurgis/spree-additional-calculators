@@ -3,11 +3,11 @@ Gem::Specification.new do |s|
   s.name        = 'spree_additional_calculators'
   s.version     = '0.1.0'
   s.summary     = 'Additional calculators for spree'
-  s.description = ''
+  s.description = 'Allows to calculate shipping costs based on total item weigh and quantity in the order'
   s.required_ruby_version = '>= 1.8.7'
 
   s.author            = 'Jurgis Jurksta'
-  # s.email             = ''
+  s.email             = 'jurgis@emails.lv'
   s.homepage          = 'https://github.com/jurgis/spree-additional-calculators'
 
   s.files         = `git ls-files`.split("\n")
