@@ -22,7 +22,8 @@ end
 
 
 desc "Default Task"
-task :default => [:spec, :cucumber ]
+task :default => [ :spec ]
+# task :default => [:spec, :cucumber ]
 
 spec = eval(File.read('spree_additional_calculators.gemspec'))
 
@@ -37,9 +38,6 @@ task :release => :package do
   Rake::Gemcutter::Tasks.new(spec).define
   Rake::Task['gem:push'].invoke
 end
-
-# desc "Default Task"
-# task :default => [ :spec ]
 
 
 desc "Regenerates a rails 3 app for testing"
