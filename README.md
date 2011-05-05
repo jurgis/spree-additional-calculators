@@ -49,6 +49,12 @@ You can test the extension by executing following commands:
     $ rake
   
   
+Screenshots
+-----------
+
+There are some [screenshots](https://github.com/jurgis/spree-additional-calculators/wiki/Screenshots) in the wiki.
+  
+  
 TODO
 ----
 
