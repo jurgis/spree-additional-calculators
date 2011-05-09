@@ -12,7 +12,9 @@ if File.exists?(gemfile) && (%w(spec cucumber).include?(ARGV.first.to_s) || ARGV
 
   require 'rspec'
   require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new
+  RSpec::Core::RakeTask.new do |t|
+    t.rspec_opts = %w{--color --format doc}
+  end
 
   require 'cucumber/rake/task'
   Cucumber::Rake::Task.new do |t|

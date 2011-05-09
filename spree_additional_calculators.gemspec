@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_additional_calculators'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.summary     = 'Additional calculators for spree'
   s.description = 'Allows to calculate shipping costs based on total item weigh and quantity in the order'
   s.required_ruby_version = '>= 1.8.7'
