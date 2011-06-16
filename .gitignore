@@ -10,3 +10,4 @@ nbproject
 spec/test_app
 Gemfile
 *.gem
+.rvmrc
