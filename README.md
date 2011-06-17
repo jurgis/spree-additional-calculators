@@ -58,7 +58,6 @@ There are some [screenshots](https://github.com/jurgis/spree-additional-calculat
 TODO
 ----
 
-* Add RSpec tests
 * Possibly add some cucumber scenarios
 * Possibly use unobtrusive javascript
   

@@ -9,9 +9,9 @@ describe AdditionalCalculator::WeightAndQuantity do
   before(:each) do
     @weight_rate1 = Factory.build(:additional_calculator_rate_for_weight, :from_value => 0, :to_value => 100, :rate => 100)
     @weight_rate2 = Factory.build(:additional_calculator_rate_for_weight, :from_value => 100.1, :to_value => 500, :rate => 500)
-    @qnty_rate1 = Factory.build(:additional_calculator_rate_for_weight, :from_value => 1, :to_value => 10, :rate => 10)
-    @qnty_rate2 = Factory.build(:additional_calculator_rate_for_weight, :from_value => 11, :to_value => 20, :rate => 20)
-    @qnty_rate3 = Factory.build(:additional_calculator_rate_for_weight, :from_value => 21, :to_value => 50, :rate => 50)
+    @qnty_rate1 = Factory.build(:additional_calculator_rate_for_qnty, :from_value => 1, :to_value => 10, :rate => 10)
+    @qnty_rate2 = Factory.build(:additional_calculator_rate_for_qnty, :from_value => 11, :to_value => 20, :rate => 20)
+    @qnty_rate3 = Factory.build(:additional_calculator_rate_for_qnty, :from_value => 21, :to_value => 50, :rate => 50)
     @empty_order = Factory(:order)
     @order_with_one_item = Factory(:order_with_one_item)
     @order_with_items_without_weight = Factory(:order_with_items_without_weight)
@@ -233,6 +233,66 @@ describe AdditionalCalculator::WeightAndQuantity do
       rate = @calculator.compute(@order1)
       rate.should_not be_nil
       rate.should == 100 + 10 # weight: 0..100 => 100, qnty: 1..10 => 10
+    end
+
+    it "should calculate correct rate for weight 10 and quantity 5" do
+      @order1.line_items[0].variant.weight = 10
+      @order1.line_items[0].quantity = 5
+      @order1.save!
+
+      rate = @calculator.compute(@order1)
+      rate.should_not be_nil
+      rate.should == 100 + 10 # weight: 0..100 => 100, qnty: 1..10 => 10
+    end
+
+    it "should calculate correct rate for weight 10 and quantity 10" do
+      @order1.line_items[0].variant.weight = 10
+      @order1.line_items[0].quantity = 10
+      @order1.save!
+
+      rate = @calculator.compute(@order1)
+      rate.should_not be_nil
+      rate.should == 100 + 10 # weight: 0..100 => 100, qnty: 1..10 => 10
+    end
+
+    it "should calculate correct rate for weight 10 and quantity 11" do
+      @order1.line_items[0].variant.weight = 10
+      @order1.line_items[0].quantity = 11
+      @order1.save!
+
+      rate = @calculator.compute(@order1)
+      rate.should_not be_nil
+      rate.should == 500 + 20 # weight: 100.1..500 => 500, qnty: 11..20 => 20
+    end
+
+    it "should calculate correct rate for weight 10 and quantity 20" do
+      @order1.line_items[0].variant.weight = 10
+      @order1.line_items[0].quantity = 20
+      @order1.save!
+
+      rate = @calculator.compute(@order1)
+      rate.should_not be_nil
+      rate.should == 500 + 20 # weight: 100.1..500 => 500, qnty: 11..20 => 20
+    end
+
+    it "should calculate correct rate for weight 10 and quantity 21" do
+      @order1.line_items[0].variant.weight = 10
+      @order1.line_items[0].quantity = 21
+      @order1.save!
+
+      rate = @calculator.compute(@order1)
+      rate.should_not be_nil
+      rate.should == 500 + 50 # weight: 100.1..500 => 500, qnty: 21..50 => 50
+    end
+
+    it "should calculate nil rate and not be available when quantity is exceeded" do
+      @order1.line_items[0].variant.weight = 1
+      @order1.line_items[0].quantity = 100
+      @order1.save!
+
+      @calculator.available?(@order1).should be_false
+      rate = @calculator.compute(@order1)
+      rate.should be_nil # weight: 0..100 => 100, qnty: 21..50 => 50 (when qnty is exceeded and there are qnty rates, return nil)
     end
 
   end

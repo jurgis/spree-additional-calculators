@@ -13,37 +13,36 @@ class AdditionalCalculator::WeightAndQuantity < AdditionalCalculator::Base
     return nil if line_items.nil?
 
     total_qnty = get_total_qnty(line_items)
-    puts "@@@ total_qnty: #{total_qnty}"
-    weight_rate = get_rate(get_total_weight(line_items), AdditionalCalculatorRate::WEIGHT)
-    puts "@@@ weight_rate: #{weight_rate}"
+    total_weight = get_total_weight(line_items)
+    weight_rate = get_rate(total_weight, AdditionalCalculatorRate::WEIGHT)
 
     # sometimes the compute method is called without checking if the calculator is available
     if weight_rate.nil?
-      puts "@@@ weight_rate is nil"
       logger.warn("The calculator's #{name} weight_rate is nil - returning. Availability is not checked!")
       return nil
     end
 
     # quantity rate might be nil if the specified range is not available
     qnty_rate = get_rate(total_qnty, AdditionalCalculatorRate::QNTY)
-    puts "@@@ qnty_rate1: #{qnty_rate}"
     # find the previous qnty rate or set it to 0 if not found
-    qnty_rate = get_previous_rate(total_qnty, AdditionalCalculatorRate::QNTY) || 0 if qnty_rate.nil?
-    puts "@@@ qnty_rate2: #{qnty_rate}"
+    previous_qnty_rate = get_previous_rate(total_qnty, AdditionalCalculatorRate::QNTY)
 
     # the total rate is sum of weight and quantity rates
-    weight_rate + qnty_rate
+    # the rate is available if
+    # 1) qnty_rate is not nil
+    # 2) qnty_rate is nil AND previous_qnty_rate is nil (quantity configuration not defined at all)
+    if !qnty_rate.nil?
+      weight_rate + qnty_rate
+    elsif previous_qnty_rate.nil?
+      weight_rate
+    else
+      nil
+    end
   end
 
   # check if this calculator is available for the Order
   def available?(object)
-    line_items = object_to_line_items(object)
-    # puts "@@@ line_items: #{line_items.inspect}"
-    return false if line_items.nil?
-
-    weight_rate = get_rate(get_total_weight(line_items), AdditionalCalculatorRate::WEIGHT)
-    # puts "@@@ weight_rate: #{weight_rate.inspect}"
-    !weight_rate.nil? # available only if the weight rate is not nil
+    !self.compute(object).nil?
   end
 
   protected
