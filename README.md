@@ -21,6 +21,7 @@ And then run:
 
     $ bundle
     $ rake spree_additional_calculators:install
+    $ rake db:migrate
 
 Then go to [Configuration](http://localhost:3000/admin/configurations) and choose [Shipping Methods](http://localhost:3000/admin/shipping_methods)
 And you will be able to select a new calculator - **Weight and Quantity**
