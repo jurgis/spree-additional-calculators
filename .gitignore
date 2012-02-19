@@ -8,6 +8,7 @@ tmp
 nbproject
 *.swp
 spec/test_app
+spec/dummy
 Gemfile
 *.gem
 .rvmrc

@@ -47,8 +47,14 @@ You can test the extension by executing following commands:
     $ cd spree_additional_calculators
     $ rake test_app SPREE_PATH='../spree'
     $ rake
-  
-  
+
+Testing
+-------
+Be sure to bundle your dependencies and then create a dummy test app for the specs to run against.
+    $ bundle
+    $ bundle exec rake test_app
+    $ bundle exec rspec spec
+
 Screenshots
 -----------
 
