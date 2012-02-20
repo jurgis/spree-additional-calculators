@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     spree_additional_calculators (1.0.0)
-      spree_core (>= 1.0.0)
+      spree_core (~> 1.0.0)
 
 GEM
   remote: http://rubygems.org/
@@ -235,6 +235,7 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   faker
+  ffaker
   launchy
   nokogiri
   rspec-rails
@@ -242,4 +243,5 @@ DEPENDENCIES
   shoulda
   simplecov
   spree_additional_calculators!
+  sqlite3
   sqlite3-ruby
