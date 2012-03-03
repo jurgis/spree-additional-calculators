@@ -1,4 +1,6 @@
 class CreateAdditionalCalculatorRates < ActiveRecord::Migration
+  class Calculator < ActiveRecord::Base; end
+
   def self.up
     create_table :additional_calculator_rates do |t|
       t.integer :calculator_id,   :null => false
@@ -17,8 +19,14 @@ class CreateAdditionalCalculatorRates < ActiveRecord::Migration
     add_index(:additional_calculator_rates, :from_value)
     add_index(:additional_calculator_rates, :to_value)
 
-    add_column(:calculators, :is_additional_calculator, :boolean, :default => false)
-    add_index(:calculators, :is_additional_calculator)
+    # Support for Spree < 1.0.0
+    if Calculator.table_exists?
+      add_column(:calculators, :is_additional_calculator, :boolean, :default => false)
+      add_index(:calculators, :is_additional_calculator)
+    else
+      add_column(:spree_calculators, :is_additional_calculator, :boolean, :default => false)
+      add_index(:spree_calculators, :is_additional_calculator)
+    end
   end
 
   def self.down
@@ -29,7 +37,13 @@ class CreateAdditionalCalculatorRates < ActiveRecord::Migration
     remove_index(:additional_calculator_rates, :to_value)
     drop_table(:additional_calculator_rates)
 
-    remove_index(:calculators, :is_additional_calculator)
-    remove_column(:calculators, :is_additional_calculator)
+    # Support for Spree < 1.0.0
+    if Calculator.table_exists?
+      remove_index(:calculators, :is_additional_calculator)
+      remove_column(:calculators, :is_additional_calculator)
+      else
+      remove_index(:spree_calculators, :is_additional_calculator)
+      remove_column(:spree_calculators, :is_additional_calculator)
+    end
   end
 end
