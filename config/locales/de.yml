@@ -1,0 +1,19 @@
+---
+de:
+  calculator_names:
+    weight_and_quantity: Gewicht und Menge
+
+  errors:
+    from_value_greater_than_to_value: "'Von'-Wert ist größer als 'Bis'-Wert"
+
+  additional_calculator_rates: Zusätzliche Rechner Sätze
+  additional_calculator_rates_description: Konfiguration Sätze für zusätzliche Rechner
+  additional_calculators: Zusätzlicher Rechner
+  weight: Gewicht
+  quantity: Menge
+  add_new: Neuen hinzufügen
+  rate_type_1: Gewicht
+  rate_type_2: Menge
+  from: Von
+  to: Bis
+  default_item_weight: Standard Gewicht
