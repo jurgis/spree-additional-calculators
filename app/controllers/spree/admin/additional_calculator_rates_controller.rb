@@ -1,7 +1,6 @@
 module Spree
   class Admin::AdditionalCalculatorRatesController < Admin::BaseController
     # resource_controller - not using because too much customization required
-    layout 'admin'
     helper Admin::AdditionalCalculatorsHelper
 
     before_filter :load_calculator, :only => [:edit, :update]
