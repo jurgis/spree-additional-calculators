@@ -1,12 +1,16 @@
 class SpreeAdditionalCalculatorsHooks < Spree::ThemeSupport::HookListener
-  # custom hooks go here
 
-  # Add a link on admin configuration page
-  insert_after :admin_configurations_menu do
-    %(<%= configurations_menu_item(t("additional_calculator_rates"), admin_additional_calculator_rates_path, t("additional_calculator_rates_description")) %>)
-  end
+  # Admin Congiration Item
+  Deface::Override.new( :virtual_path => "admin/configurations/index",
+                        :name => "converted_admin_configurations_menu_133293197",
+                        :insert_after => "[data-hook='admin_configurations_menu'], #admin_configurations_menu[data-hook]",
+                        :text => "<%= configurations_menu_item(I18n.t('additional_calculator_rates'), admin_additional_calculator_rates_path, I18n.t('additional_calculator_rates_description')) %>",
+                        :disabled => false)
 
-  # Add js file to the head section
-  insert_after :admin_inside_head, 'shared/additional_calculators_admin_head'
-
+  # Additional JavaScript
+  Deface::Override.new( :virtual_path => "layouts/admin",
+                        :name => "converted_admin_inside_head_650753510",
+                        :insert_after => "[data-hook='admin_inside_head'], #admin_inside_head[data-hook]",
+                        :partial => "shared/additional_calculators_admin_head",
+                        :disabled => false)
 end
